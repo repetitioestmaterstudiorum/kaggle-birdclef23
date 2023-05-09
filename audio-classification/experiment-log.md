@@ -38,8 +38,8 @@ Experiment: Run training with different length audio sequences, all else equal (
 Results:
 
 - 8s: 37.36% accuracy (validation set)
-- 10s: % accuracy (validation set)
-- 15s: % accuracy (validation set)
+- 10s: 42.85% accuracy (validation set)
+- 15s: 46.60% accuracy (validation set)
 - 20s: 49.73% accuracy (validation set)
 - 24s (median): 48.35% accuracy (validation set)
 
@@ -74,6 +74,8 @@ batch_size 4
 
 It seems that lower batch sizes (4 and 8) yield best results.
 
+Also interesting is that ideal learning rates are quote low for an adam optimizer (~0.00008).
+
 ### Optimizer: Weight decay or not?
 
 Experiment: Run training with and without dropout of 0.1, all else equal (batch_size 16, all training data, 10 epochs, 128 n_mels, 0.0002 lr)
@@ -99,21 +101,57 @@ Results:
 
 ### NAS: 2 or 3 hidden layers in the fully-connected classifier layers after the CNN?
 
-Experiment: Run training all else equal (seconds: 10, batch_size: 8, data_percentage: 1, num_epochs: 3, n_mels: 128, learning_rate: 8e-05) with 2 or 3 layers.
+Experiment: Run training all else equal (seconds: 10, batch_size: 8, data_percentage: 1, num_epochs: 5, n_mels: 128, learning_rate: 8e-05) with 2 or 3 layers.
 
 Results:
 
 - 2 layers:
-- 3 layers:
+  nn.Linear(self.regnet.fc.in_features, 1024),
+  nn.BatchNorm1d(1024),
+  nn.PReLU(),
+
+  nn.Linear(1024, 512),
+  nn.BatchNorm1d(512),
+  nn.PReLU(),
+
+  nn.Linear(512, num_classes)
+
+- 3 layers: Train Accuracy: 52.77%, Valid Accuracy: 39.99%
+  nn.Linear(self.regnet.fc.in_features, 1024),
+  nn.BatchNorm1d(1024),
+  nn.PReLU(),
+
+  nn.Linear(1024, 1024),
+  nn.BatchNorm1d(1024),
+  nn.PReLU(),
+
+  nn.Linear(1024, 512),
+  nn.BatchNorm1d(512),
+  nn.PReLU(),
+
+  nn.Linear(512, num_classes),
 
 ### Will mirroring the audio files (e.g. 10s -> 20s with first 10s in reverse) improve results?
 
-Experiment: Run training all else equal with 20s vs 10s mirrored.
+Experiment: Run training all else equal (batch_size 8, all training data, 5 epochs, 128 n_mels, 0.00008 lr) with 20s vs 10s mirrored.
 
 Results:
 
-- 20s:
-- 10s mirrored:
+- 20s: 49.73% accuracy (validation set)
+- 10s mirrored: 45.78% accuracy (validation set)
+- 15s mirrored: 46.31% accuracy (validation set)
+- 20s mirrored: 52.60% accuracy (validation set)
+
+Experiment: Run training with pad reflect, which mirrors the vector only for audio files that aren't long enough. (batch_size 8, 50% of training data, 2 epochs, 128 n_mels, 0.00008 lr)
+
+Results:
+
+- 10s wrap: 9% accuracy (validation set)
+- 10s reflect: 11% accuracy (validation set)
+- 20s wrap: 13% accuracy (validation set)
+- 20s reflect: 12% accuracy (validation set)
+
+Interesting results. Reflect is better for short cap sizes, wrap for larger ones.
 
 ### Will applying preprocessing in the model as opposed to in the dataset speed up training?
 
