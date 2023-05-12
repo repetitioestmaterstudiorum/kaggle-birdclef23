@@ -5,3 +5,4 @@ __pycache__/
 OLD/
 .DS_Store
 *.joblib
+*.pt
