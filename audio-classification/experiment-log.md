@@ -12,7 +12,7 @@ Results: ...
 
 ## Experiments
 
-### What's the best architecture for our feature extractors?
+### What's the best architecture for our feature extractors?
 
 Experiment: Try out various NN architectures (self-made), pretrained CNN and transformer models.
 
@@ -99,7 +99,7 @@ Results:
 - wrap: 49.73% accuracy (validation set)
 - constant 0: 46.93% accuracy (validation set)
 
-### NAS: 2 or 3 hidden layers in the fully-connected classifier layers after the CNN?
+### NAS: 2 or 3 hidden layers in the fully-connected classifier layers after the CNN?
 
 Experiment: Run training all else equal (seconds: 10, batch_size: 8, data_percentage: 1, num_epochs: 5, n_mels: 128, learning_rate: 8e-05) with 2 or 3 layers.
 
@@ -153,11 +153,22 @@ Results:
 
 Interesting results. Reflect is better for short cap sizes, wrap for larger ones.
 
-### Will applying preprocessing in the model as opposed to in the dataset speed up training?
+### ~~Will applying preprocessing in the model as opposed to in the dataset speed up training?~~
 
-Experiment: Run training all else equal with the two approaches.
+~~Experiment: Run training all else equal with the two approaches.~~
+
+~~Results:~~
+
+~~- In the dataset:~~
+~~- In the model:~~
+
+### After realizing we just need to run inference within 120min and not training: efficientnet or regnet?
+
+Experiment: Research.
 
 Results:
 
-- In the dataset:
-- In the model:
+- According to https://towardsdatascience.com/regnet-the-most-flexible-network-architecture-for-computer-vision-2fd757f9c5cd#:~:text=First%2C%20RegNets%20efficient%20performance%20versus%20the%20EfficientNet%20architecture.&text=Impressively%2C%20for%20all%20comparisons%2C%20RegNet,especially%20towards%20the%20lower%20end., RegNet is more efficient than EfficientNet. (Relevant graphic:
+  https://miro.medium.com/v2/resize:fit:1400/format:webp/1*pKBw2ox6UT86t1tyn5lViQ.png)
+- According to https://github.com/facebookresearch/pycls/issues/116, RegNets do not outperform Efficientnets
+- According to https://medium.com/syncedreview/facebook-ai-regnet-models-outperform-efficientnet-models-run-5x-faster-on-gpus-7bdc3ea577ae, RegNets outperform Efficientnets _ON GPUS_
