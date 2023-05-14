@@ -172,3 +172,31 @@ Results:
   https://miro.medium.com/v2/resize:fit:1400/format:webp/1*pKBw2ox6UT86t1tyn5lViQ.png)
 - According to https://github.com/facebookresearch/pycls/issues/116, RegNets do not outperform Efficientnets
 - According to https://medium.com/syncedreview/facebook-ai-regnet-models-outperform-efficientnet-models-run-5x-faster-on-gpus-7bdc3ea577ae, RegNets outperform Efficientnets _ON GPUS_
+
+### Why does the new train notebook not learn?
+
+Details:
+
+- Training and validation functions are fine (verified in other notebook)
+- 5s audios train on the other notebook
+- Loading a well-trained model from the other notebook in this one spits out bad accuracy as well (~1.5%), but good (~43%) in other notebook
+- Highly suspect: the new torchaudio melspec, power to db, and normalization functions
+
+Experiment:
+
+1. Train a model with 5s audios in an old, working notebook (so far, only loaded good models trained on longer sequences)
+2. Verify low accuracy in new notebook
+3. If still bad accuracy, use old librosa functions for preprocessing
+4. Verify better accuracy in new notebook
+
+_Optimize later_
+
+- By default turn 5s audios into 10s audios with reflection
+- Or even more with melspec to mfcc conversion (or others)
+
+Results:
+
+1. This worked, achieved ~35% accuracy (but overfitted)
+2. Indeed, an initial validation set validation accuracy of just 2.2% was achieved
+3. Instead of using librosa functions, adjusted torchaudio functions to librosa default settings. This didn't improvde results. I then adapted the old notebook such that only the Dataset class remained as it was before, meaning the Dataset is the only effective difference (using Librosa in the old NB, Torchaudio in the new one). This notebook can still train a model. Subsequently, I decided to switch back to Librosa for preprocessing in the main (new) notebook.
+4.

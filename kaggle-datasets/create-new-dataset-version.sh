@@ -4,14 +4,20 @@
 # To run this script, make it executable first: chmod +x create-new-dataset-version.sh
 # Then run with `python create-new-dataset-version.bash`
 
-# ensure the script is executed in the directory where it is located
+# Ensure the script is executed in the directory where it is located
 cd "$(dirname "$0")"
 
-# move best_model.pt and label_encoder.joblib from ../audio-classification to ./inference
-cp ../audio-classification/best_model.pt ./inference
+# Remove existing models
+rm ./inference/*.pt
+
+# Copy the latest model, label_encoder.joblib from ../audio-classification to ./inference
+latest_model=$(ls -t ../audio-classification/5s_model*.pt | head -n 1)
+cp "$latest_model" ./inference
 cp ../audio-classification/label_encoder.joblib ./inference
+
+# Copy the latest version of utils.py from ../utils to ./inference 
 cp ../utils.py ./inference
 
-# test
+# Create new dataset version
 cd inference
-kaggle datasets version -m "newest versions of utils.py, best_model.pt and label_encoder.joblib"
+kaggle datasets version -m "newest versions of utils.py, model and label encoder"
