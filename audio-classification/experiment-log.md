@@ -198,5 +198,9 @@ Results:
 
 1. This worked, achieved ~35% accuracy (but overfitted)
 2. Indeed, an initial validation set validation accuracy of just 2.2% was achieved
-3. Instead of using librosa functions, adjusted torchaudio functions to librosa default settings. This didn't improvde results. I then adapted the old notebook such that only the Dataset class remained as it was before, meaning the Dataset is the only effective difference (using Librosa in the old NB, Torchaudio in the new one). This notebook can still train a model. Subsequently, I decided to switch back to Librosa for preprocessing in the main (new) notebook.
-4.
+3. Instead of using librosa functions, I first adjusted torchaudio functions to librosa default settings. This didn't improvde results. I then adapted the old notebook such that only the Dataset class remained as it was before, meaning that the Dataset is the only effective difference (using Librosa in the old NB, Torchaudio in the new one). This notebook can still train a model. Subsequently, I decided to switch back to Librosa for preprocessing in the main (new) notebook.
+4. Nothing changed!
+
+After pondering about what the remaining differences in the code are I tested the following: setting the variable melspecs_per_audio to 1 which avoids the code that flattens the audio crops per audio recording. Suddenly, the model learned as well as in the old notebook!
+To verify, I'm running the new notebook with torchaudio instead of librosa with melspecs_per_audio set to 1. Result: The model learns.
+The torchaudio implementation runs much faster than the librosa one (~3 times faster), so this one's the winner.
