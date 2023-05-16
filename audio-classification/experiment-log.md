@@ -1,15 +1,5 @@
 # Manual Experiment Log
 
-## Format (Template)
-
-### Question
-
-Experiment: ...
-
-(Constraints: ...)
-
-Results: ...
-
 ## Experiments
 
 ### What's the best architecture for our feature extractors?
@@ -192,7 +182,7 @@ Experiment:
 _Optimize later_
 
 - By default turn 5s audios into 10s audios with reflection
-- Or even more with melspec to mfcc conversion (or others)
+- Or even more with melspec to MFCC conversion (or others)
 
 Results:
 
@@ -204,3 +194,51 @@ Results:
 After pondering about what the remaining differences in the code are I tested the following: setting the variable melspecs_per_audio to 1 which avoids the code that flattens the audio crops per audio recording. Suddenly, the model learned as well as in the old notebook!
 To verify, I'm running the new notebook with torchaudio instead of librosa with melspecs_per_audio set to 1. Result: The model learns.
 The torchaudio implementation runs much faster than the librosa one (~3 times faster), so this one's the winner.
+
+### Does normalization of mel spectrograms/MFCCs lead to better results? (and do MFCCs lead to better results than mel spectrograms?)
+
+Experiment: Run training using mel spectrograms all else equal with and without normalization.
+Hyperparameters: batch_size: 8, data_percentage: 1, num_epochs: 4, n_mels: 128, learning_rate: 0.0001, pin_memory: True,
+validate_on_train: True, device: mps, pad_method: wrap, validate_train_pct: 0.33
+
+Results mel spectrograms:
+
+- Without normalization: Train Loss: 0.5240, Valid Loss: 0.5496, Train Accuracy: 24.31%, Valid Accuracy: 21.90%
+- With normalization: Train Loss: 0.5141, Valid Loss: 0.5358, Train Accuracy: 25.48%, Valid Accuracy: 24.71%
+
+Experiment: Run training using MFCCs all else equal with and without normalization.
+
+Results MFCCs:
+
+- Without normalization: Train Loss: 0.5966, Valid Loss: 0.6272, Train Accuracy: 11.78%, Valid Accuracy: 10.11%
+- With normalization: Train Loss: 0.6095, Valid Loss: 0.6293, Train Accuracy: 10.50%, Valid Accuracy: 9.49%
+
+### When concatenating MFCCs and mel spectrograms, does normalizing mel spectrograms but not MFCCs lead to better results than normalizing both?
+
+Experiment: Run training with normalized mel spectrograms, with and without normalization of MFCCs.
+
+Hyperparameters: batch_size: 8, data_percentage: 1, num_epochs: 4, n_mels: 128, learning_rate: 0.0001, pin_memory: True,
+validate_on_train: True, device: mps, pad_method: wrap, validate_train_pct: 0.33
+
+Results (mel spectrograms normalized):
+
+- Without MFCC normalization: Train Loss: 0.5274, Valid Loss: 0.5497, Train Accuracy: 23.45%, Valid Accuracy: 21.79%
+- With MFCC normalization: Train Loss: 0.5204, Valid Loss: 0.5374, Train Accuracy: 27.19%, Valid Accuracy: 25.94%
+- Normalizing both after concatenation: Train Loss: 0.5923, Valid Loss: 0.6020, Train Accuracy: 14.04%, Valid Accuracy: 13.86%
+
+Clearly, normalizing separately was the best option. However, compared to just normalized mel spectrograms (Train Loss: 0.5141, Valid Loss: 0.5358, Train Accuracy: 25.48%, Valid Accuracy: 24.71%), the results are almost identical, so it's questionable whether the extra computations are worth it. Probably not, because with MFCCs there is a slight bit more overfitting.
+
+### Does mirroring the audio before converting it to a mel spectrogram lead to better results?
+
+Experiment: Run training with and without mirroring the audio before converting it to a mel spectrogram.
+
+Hyperparameters: batch_size: 8, data_percentage: 1, num_epochs: 4, n_mels: 128, learning_rate: 0.0001, pin_memory: True,
+validate_on_train: True, device: mps, pad_method: wrap, validate_train_pct: 0.33
+
+Results:
+
+- Without mirroring: Train Loss: 0.5141, Valid Loss: 0.5358, Train Accuracy: 25.48%, Valid Accuracy: 24.71%
+- With mirroring: Train Loss: 0.5341, Valid Loss: 0.5508, Train Accuracy: 24.73%, Valid Accuracy: 22.67%
+- With mirroring before melspec creation: Train Loss: 0.5177, Valid Loss: 0.5394, Train Accuracy: 26.54%, Valid Accuracy: 24.59%
+
+... without mirroring results in the best accuracy.
