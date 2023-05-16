@@ -242,3 +242,15 @@ Results:
 - With mirroring before melspec creation: Train Loss: 0.5177, Valid Loss: 0.5394, Train Accuracy: 26.54%, Valid Accuracy: 24.59%
 
 ... without mirroring results in the best accuracy.
+
+### Compare different padding methods (again)
+
+Experiment: Run training with wrap and with zeros padding.
+
+Hyperparameters: batch_size: 8, data_percentage: 1, num_epochs: 4, n_mels: 128, learning_rate: 0.0001, pin_memory: True,
+validate_on_train: True, device: mps, pad_method: wrap, validate_train_pct: 0.33
+
+Results:
+
+- With wrap padding: Train Loss: 0.5141, Valid Loss: 0.5358, Train Accuracy: 25.48%, Valid Accuracy: 24.71%
+- With zeros padding: Train Loss: 0.5293, Valid Loss: 0.5451, Train Accuracy: 26.42%, Valid Accuracy: 25.59%
