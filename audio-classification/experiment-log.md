@@ -254,3 +254,17 @@ Results:
 
 - With wrap padding: Train Loss: 0.5141, Valid Loss: 0.5358, Train Accuracy: 25.48%, Valid Accuracy: 24.71%
 - With zeros padding: Train Loss: 0.5293, Valid Loss: 0.5451, Train Accuracy: 26.42%, Valid Accuracy: 25.59%
+
+### Feature extractor search notes
+
+Inference times **per audio** on trained models:
+
+- RegNet Y 800MF (~6M params): ~4s
+- EfficientNet V2 S (~22M params): ~10s
+- ResNet 18 (~11M): ~4s
+
+Accuracy after many epochs (when the model has converged):
+
+- RegNet Y 800MF (~7M params):
+- EfficientNet V2 S (~22M params): 21%
+- ResNet 18 (~11M): 40% valid, 45% train -> overfitted
