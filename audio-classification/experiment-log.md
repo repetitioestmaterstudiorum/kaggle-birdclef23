@@ -265,6 +265,8 @@ Inference times **per audio** on trained models:
 
 Accuracy after many epochs (when the model has converged):
 
-- RegNet Y 800MF (~7M params):
-- EfficientNet V2 S (~22M params): 21%
+- RegNet Y 800MF (~7M params): 55% valid, 63% train -> overfitted
+- EfficientNet V2 S (~22M params): 21% (20 epochs)
 - ResNet 18 (~11M): 40% valid, 45% train -> overfitted
+- EVA-02 (eva02_base_patch14_448.mim_in22k_ft_in22k_in1k): 3% and decreasing, 1 epoch takes almost ~2h to train with validation
+-

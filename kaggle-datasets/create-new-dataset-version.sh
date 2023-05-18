@@ -11,7 +11,7 @@ cd "$(dirname "$0")"
 rm ./inference/*.pt
 
 # Copy the latest model, label_encoder.joblib from ../audio-classification to ./inference
-latest_model=$(ls -t ../audio-classification/5s_model*.pt | head -n 1)
+latest_model=$(ls -t ../audio-classification/5s*.pt | head -n 1)
 cp "$latest_model" ./inference
 cp ../audio-classification/label_encoder.joblib ./inference
 
