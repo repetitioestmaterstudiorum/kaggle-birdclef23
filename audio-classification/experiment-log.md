@@ -269,4 +269,4 @@ Accuracy after many epochs (when the model has converged):
 - EfficientNet V2 S (~22M params): 21% (20 epochs)
 - ResNet 18 (~11M): 40% valid, 45% train -> overfitted
 - EVA-02 (eva02_base_patch14_448.mim_in22k_ft_in22k_in1k): 3% and decreasing, 1 epoch takes almost ~2h to train with validation
--
+- EVA Tiny (eva02_tiny_patch14_336.mim_in22k_ft_in1k): 3% but increasing, but not very promising after 3 epochs
