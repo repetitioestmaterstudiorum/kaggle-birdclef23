@@ -19,3 +19,7 @@ Finsished epoch 14/100. Train Loss: 0.2700, Valid Loss: 0.3732, Train Accuracy: 
 #### Using the default classifier
 
 Finsished epoch 12/20. Train Loss: 0.2354, Valid Loss: 0.3956, Train Accuracy: 59.07%, Valid Accuracy: 50.27%
+
+### Using 4 channels: high/low wavelet mel-spectograms, mfcc, and audio mel-spectogram
+
+Finsished epoch 11/20. Train Loss: 0.3253, Valid Loss: 0.4387, Train Accuracy: 43.11%, Valid Accuracy: 38.12%
