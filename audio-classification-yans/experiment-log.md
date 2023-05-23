@@ -10,6 +10,10 @@ Train Accuracy: 21.66%, Valid Accuracy: 19.49%
 
 ## Accuracy
 
+### Using 2-channel high/low mel-spectograms based on DWT
+
+Finsished epoch 11/20. Train Loss: 0.3253, Valid Loss: 0.4387, Train Accuracy: 43.11%, Valid Accuracy: 38.12%
+
 ### Using 2-channel high/low mel-spectograms based on DWT with an extra channel for audio
 
 #### Using a deeper classifier
