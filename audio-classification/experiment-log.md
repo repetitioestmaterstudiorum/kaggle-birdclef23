@@ -270,3 +270,22 @@ Accuracy after many epochs (when the model has converged):
 - ResNet 18 (~11M): 40% valid, 45% train -> overfitted
 - EVA-02 (eva02_base_patch14_448.mim_in22k_ft_in22k_in1k): 3% and decreasing, 1 epoch takes almost ~2h to train with validation
 - EVA Tiny (eva02_tiny_patch14_336.mim_in22k_ft_in1k): 3% but increasing, but not very promising after 3 epochs
+- RegNet Y 1.6GF (~11M params): 62% valid, 72% train -> overfitted
+
+Best: RegNet Y 800 GF
+
+### Can learn time be decreased by first training without, then with augmentation?
+
+Experiment: Run training without augmentation until overfitting is evident, then switch to training with augmentation.
+
+Result: Indeed, training speed could be improved! Since training without augmentation leads to convergence much faster, after 43 epochs, the accuracy was 61% on the validation set, and 66% on the training set. After switching to training with augmentation, accuracy could be improved on the validation set to 63% and 65% on the training set. It still took 73 epochs though. It might have been wiser to continue training with augmentation with a lower learning rate?
+
+### Is preprocessing audio to 4 channels a valid option with 2h max runtim on Kaggle for submissions?
+
+Experiment: Run training and submission with 4 channels.
+
+Results: Yes, barely below 2h!
+
+Follow-up experiment: Is it also possible with RegNet Y 1.6 MF?
+
+Results: TBD
