@@ -288,4 +288,4 @@ Results: Yes, barely below 2h!
 
 Follow-up experiment: Is it also possible with RegNet Y 1.6 MF?
 
-Results: TBD
+Results: Yes.
