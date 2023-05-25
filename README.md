@@ -12,6 +12,8 @@ Project team:
 
 This is also our final project of the Data Science and Machine Learning course at HSLU for the Master of Science in IT, Digitalization, and Sustainability.
 
+Our team reached 712/1210 on the leaderboard.
+
 ## Requirements (Kaggle)
 
 - Pytorch (not Tensorflow)
